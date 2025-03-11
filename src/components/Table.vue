@@ -38,7 +38,7 @@ function onScroll(e) {
                 <tr>
                     <th @click="store.sort = 'id'" :class="{ 'bg-gray-200': store.sort == 'id' }"
                         class="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                        style="width: 5%;">ID</th>
+                        style="width: 50px;">ID</th>
                     <th @click="store.sort = 'albumId'" :class="{ 'bg-gray-200': store.sort == 'albumId' }"
                         class="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                         style="width: 75px;">Альбом</th>
