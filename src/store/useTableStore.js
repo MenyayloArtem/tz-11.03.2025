@@ -4,11 +4,15 @@ import { reactive, ref } from "vue";
 export const useTableStore = defineStore("table", () => {
     let items = ref([])
     let page = ref(0)
+
+    let albumIds = ref("")
+    let sort = ref("")
+
     let loading = ref(false)
     let loadedMax = ref(false)
 
-    async function loadItems(ids, sort) {
-        ids = (ids?.value)
+    async function loadItems() {
+        let ids = albumIds.value
         const albumsQuery = ids ? ids.split(" ").map(id => `albumId=${id}`).join("&") : ""
         const sortQuery = sort?.value ? `&_sort=${sort.value}` : ""
         console.log(albumsQuery)
@@ -22,10 +26,10 @@ export const useTableStore = defineStore("table", () => {
         return json
     }
 
-    async function loadMore(ids, sort) {
+    async function loadMore() {
         if (!loadedMax.value) {
             setPage(page.value + 1)
-            let loadedItems = await loadItems(ids, sort)
+            let loadedItems = await loadItems()
 
             if (!loadedItems.length) {
                 loadedMax.value = true
@@ -46,11 +50,11 @@ export const useTableStore = defineStore("table", () => {
         loadedMax.value = false
     }
 
-    async function loadFirst(albumIds, sort) {
+    async function loadFirst() {
         resetPage()
-        let loadedItems = await loadItems(albumIds, sort)
+        let loadedItems = await loadItems()
         items.value = loadedItems
     }
 
-    return {items, loading, loadFirst, loadMore}
+    return {items, loading, albumIds, sort, loadFirst, loadMore}
 });

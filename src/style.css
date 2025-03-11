@@ -4,18 +4,6 @@
   overflow: scroll;
 }
 
-.my-table * {
-  text-align: start;
-}
-
-.my-table > thead > tr {
-  border-bottom: 1px solid #999;
-}
-
-.my-table tr {
-  border-bottom: 1px solid #ccc;
-}
-
 .th, td {
   white-space: nowrap; /* Запрещаем перенос строк */
   overflow: hidden;    /* Скрываем текст, который не помещается */

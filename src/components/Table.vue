@@ -8,11 +8,11 @@ const albumIds = ref("")
 const sort = ref("")
 
 onMounted(() => {
-    store.loadFirst(albumIds, sort)
+    store.loadFirst()
 })
 
-watch(sort, () => {
-    store.loadFirst(albumIds, sort)
+watch(() => [store.sort], () => {
+    store.loadFirst()
 })
 
 watch(() => store.items, (v) => {
@@ -24,7 +24,7 @@ function onScroll(e) {
     const scrollHeight = e.target.scrollHeight
     const scrollTop = e.target.scrollTop
 
-    if (scrollTop + clientHeight == scrollHeight) {
+    if (scrollTop + clientHeight >= scrollHeight - 10) {
         store.loadMore(albumIds, sort)
     }
 }
@@ -32,25 +32,24 @@ function onScroll(e) {
 
 <template>
     <div @scroll="onScroll" class="mx-auto max-h-[600px] max-w-[600px] table-outer text-xs mt-6">
-        <table class="table-fixed w-full my-table min-w-[600px] bg-white shadow-md rounded-lg overflow-hidden">
+        <table class="table-fixed w-full my-table min-w-[600px] w-[600px] bg-white shadow-md rounded-lg">
 
             <thead class="bg-gray-50">
                 <tr>
-                    <th @click="sort = 'id'"
-                        :class="{'bg-gray-200' : sort == 'id'}"
+                    <th @click="store.sort = 'id'" :class="{ 'bg-gray-200': store.sort == 'id' }"
                         class="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                        style="width: 7%;">ID</th>
-                    <th @click="sort = 'albumId'"
-                    :class="{'bg-gray-200' : sort == 'albumId'}"
+                        style="width: 5%;">ID</th>
+                    <th @click="store.sort = 'albumId'" :class="{ 'bg-gray-200': store.sort == 'albumId' }"
                         class="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                         style="width: 75px;">Альбом</th>
-                    <th @click="sort = 'title'"
-                    :class="{'bg-gray-200' : sort == 'title'}"
+                    <th @click="store.sort = 'title'" :class="{ 'bg-gray-200': store.sort == 'title' }"
                         class="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Название
                     </th>
-                    <th class="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Ссылка
+                    <th class="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                        style="width: 20%;">Ссылка
                     </th>
-                    <th class="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Миниатюра
+                    <th class="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                        style="width: 20%;">Миниатюра
                     </th>
                 </tr>
             </thead>
